@@ -9,8 +9,8 @@
 *
 * AUTHOR 1 - Matricula: [874345]
 * AUTHOR 1 - Codigo de Pessoa: [1484339]
-* AUTHOR 2 - Matricula: [MATRICULA_MIRNA]
-* AUTHOR 2 - Codigo de Pessoa: [CÓDIGO_MIRNA]
+* AUTHOR 2 - Matricula: [83320]
+* AUTHOR 2 - Codigo de Pessoa: [148975]
 ********************************************************/
 
 //Bibliotecas Utilizadas no Trabalho
