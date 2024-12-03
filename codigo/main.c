@@ -9,8 +9,8 @@
 *
 * AUTHOR 1 - Matricula: [874345]
 * AUTHOR 1 - Codigo de Pessoa: [1484339]
-* AUTHOR 2 - Matricula: [83320]
-* AUTHOR 2 - Codigo de Pessoa: [148975]
+* AUTHOR 2 - Matricula: [MATRICULA_MIRNA]
+* AUTHOR 2 - Codigo de Pessoa: [CÓDIGO_MIRNA]
 ********************************************************/
 
 //Bibliotecas Utilizadas no Trabalho
@@ -75,13 +75,83 @@ typedef struct reserva {
 
 //Funções e Procedimentos
 
+ int cadastroDePassageiros ()
+ {
 
+ }
+
+ int cadastroIntegranteTripulacao ()
+ {
+
+ }
+
+ int cadastroDeVoo ()
+ {
+
+ }
+
+ int cadastroDeAssentos ()
+ {
+
+ }
+
+ int reservaDeAssento ( )
+ {
+
+ }
+
+ int baixaReservaAssento ()
+ {
+
+ }
+
+ int buscarPassageiroOuMembroDaTripulacao ()
+ {
+
+ }
+
+ int listarVoosPassageiro ()
+ {
+
+ }
+
+ int programaDeFidelidade ()
+ {
+
+ }
 
 //Função Principal
 int main ( void )
 {
+ int x = 1;
+ int quantidadeAvioes = 10;
+ int quantidadePadraoDeAssentos[8][10];
 
 
+ do
+ {
+  printf("___________________________________________________________________________________________________________");
+  printf("\nTRABALHO PRATICO INTERDISCIPLINAR ALGORITMOS E ESTRUTURAS DE DADOS / FUNDAMENTOS DE ENGENHARIA DE SOFTWARE");
+  printf("\n\nMenu de opcoes : \n\n1 - Cadastrar Passageiro \n2 - Cadastrar Membro da Tripulacao \n3 - Cadastrar um Voo \n4 - Cadastrar um Assento \n5 - Reservar um Assento \n6 - Cancelar Minha Viagem \n7 - Pesquisar Membros da Tripulacao ou Passageiro \n8 - Listar os Meus Voos \n9 - Programa de Fidelidade \n0 - Sair do Menu");
+  printf("\n\nEscolha uma Opcao : ");
+  scanf("%d", &x);
+
+  switch ( x )
+  {
+    case 0: ; break;
+    case 1: cadastroDePassageiros() ; break;
+    case 2: cadastroIntegranteTripulacao() ; break;
+    case 3: cadastroDeVoo() ; break;
+    case 4: cadastroDeAssentos() ; break;
+    case 5: reservaDeAssento(); break;
+    case 6: baixaReservaAssento(); break;
+    case 7: buscarPassageiroOuMembroDaTripulacao; break;
+    case 8: listarVoosPassageiro; break;
+    case 9: programaDeFidelidade; break;
+    default: printf("\nOpção Invalida");
+  }
+
+ } while ( x != 0 );
 
 
  return 0;
