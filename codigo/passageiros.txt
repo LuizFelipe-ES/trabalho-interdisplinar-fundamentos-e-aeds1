@@ -1,0 +1,3 @@
+202405;Jose Sa;Rua dos bobos n.0, MG, Brasil ;31-969466617;sim;55
+202428;Luana Oliveira;Rua Aquino 02, Betim, MG, Brasil;31-955194022;nao;0
+202415;Tiago Motta;Rua 123 da Silva 123, Betim, MG, Brasil;31-918407822;Sim;0
