@@ -1,2 +1,5 @@
-1 - livre - 5
-1 - livre - 2
+1 - livre - 5 n.
+1 - ocupado - 2 Tiago Motta.
+1 - ocupado - 3 Jose Sa.
+1 - ocupado - 4 Luana Oliveira.
+1 - livre - 8 n.
