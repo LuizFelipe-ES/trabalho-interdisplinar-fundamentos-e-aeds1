@@ -197,6 +197,7 @@ int verificaAssentoLivre(int codigo, int numeroAssento) {
                 return 1;
             }
             else{
+                fclose(arquivo);
                 printf("\nAssento já ocupado! ");
                 return 0;
             }
@@ -845,6 +846,8 @@ void excluirAssento() //FUNCIONAL
 
     if(x==0){
         printf("\nNenhum assento cadastrado nesse voo.\n");
+        fclose(arquivo);
+        fclose(temp);
         return;
     }
     else{
@@ -931,9 +934,50 @@ void reservarAssento()
 
 }
 
-int baixaReservaAssento ()
+void baixaReservaAssento ()
 {
+    assento novoAssento;
+    int codigo, numeroAssento, x=0;
 
+    FILE *arquivo;
+    FILE *temp;
+    arquivo = fopen("assentos.txt", "r");
+    temp = fopen("temp.txt", "w");
+
+    if(arquivo == NULL || temp == NULL){
+        printf("\nErro ao abrir arquivo!\n");
+        return;
+    }
+
+    do
+    {
+        printf("\nDigite o codigo do voo: ");
+        scanf("%d", &codigo);
+    }while(codigoVooExiste(codigo)==0);
+
+    do
+    {
+        printf("\nDigite o numero do assento: ");
+        scanf("%d", &numeroAssento);
+    }while(verificaAssentoLivre(codigo, numeroAssento)==1);
+
+    while(fscanf(arquivo, "%d - %9[^-]- %d %29[^.].", &novoAssento.codigoDoVoo, novoAssento.statusDoAssento, &novoAssento.numeroDoAssento, novoAssento.nomePassageiro) != EOF)
+    {
+        if(codigo == novoAssento.codigoDoVoo && numeroAssento == novoAssento.numeroDoAssento){
+
+            strcpy(novoAssento.nomePassageiro, "n");
+            strcpy(novoAssento.statusDoAssento, "livre ");
+        }
+        fprintf(temp, "%d - %s- %d %s.\n", novoAssento.codigoDoVoo, novoAssento.statusDoAssento, novoAssento.numeroDoAssento, novoAssento.nomePassageiro);
+    }
+
+    fclose(arquivo);
+    fclose(temp);
+
+    remove("assentos.txt");
+    rename("temp.txt", "assentos.txt");
+
+    printf("\nAssento livre!\n");
 }
 
 void salvarArquivo() {
@@ -1214,7 +1258,7 @@ int main ( void )
             printf("\n\nMenu de opcoes : \n\n1 - Cadastrar membro da tripulacao \n2 - Editar membro da tripulacao \n3 - Listar membros da tripulacao \n4 - Excluir membro da tripulacao");
             scanf("%d", &x);
             switch( x )
-            {
+            /*{
             case 1: cadastroDeMembroTripulacao(); break;
             case 2: editarMembroTripulacao(); break;
             case 3: listarMembroTripulacao(); break;
@@ -1235,7 +1279,7 @@ int main ( void )
             }
             break;
     case 4:
-            printf("\n\nMenu de opcoes : \n\n1 - Cadastrar assento \n2 - Reservar assento \n3 - Listar assentos \n4 - Excluir assento");
+            printf("\n\nMenu de opcoes : \n\n1 - Cadastrar assento \n2 - Reservar assento \n3 - Listar assentos \n4 - Excluir assento \n5 - Excluir reserva de assento");
             scanf("%d", &x);
             switch( x )
             {
@@ -1243,21 +1287,10 @@ int main ( void )
             case 2: reservarAssento(); break;
             case 3: listarAssentos(); break;
             case 4: excluirAssento(); break;
+            case 5: baixaReservaAssento(); break;
             default: printf("\nOpcao invalida!"); break;
             }
             break;
-    case 5:/*
-            printf("\n\nMenu de opcoes : \n\n1 - Cadastrar reserva \n2 - Editar reserva \n3 - Listar reservas \n4 - Excluir reserva");
-            scanf("%d", &x);
-            switch( x )
-            {
-            case 1: cadastroDeReserva(); break;
-            case 2: editarReserva(); break;
-            case 3: listarReserva(); break;
-            case 4: excluirReserva(); break;
-            default: printf("\nOpcao invalida!"); break;
-            }
-            break;*/
     default: printf("\nOpcao Invalida");
   }
 
