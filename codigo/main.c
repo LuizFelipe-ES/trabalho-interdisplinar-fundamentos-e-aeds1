@@ -68,10 +68,9 @@ typedef struct voo {
 
 typedef struct assento {
 
-	int quantidadeDeAssentos[8][10];
 	int numeroDoAssento;
 	int codigoDoVoo;
-	char statusDoAssento[8];
+	char statusDoAssento[8]; // ocupado/livre
 
 } assento;
 
@@ -86,7 +85,7 @@ typedef struct reserva {
 //***FUNÇÕES E PROCEDIMENTOS***
 
 //Função para verificar se o codigo de passageiro já existe
-int codigoJaExiste(int codigo) {
+int codigoPassageiroJaExiste(int codigo) {
     FILE *arquivo = fopen("passageiros.txt", "r");
     int codigoExistente;
     passageiro novoPassageiro;
@@ -110,6 +109,62 @@ int codigoJaExiste(int codigo) {
     return 0; // Código não encontrado
 }
 
+//Função para verificar se o codigo de voo existe
+int codigoVooExiste(int codigo){
+    voo novovoo;
+
+    FILE *arquivo;
+    arquivo = fopen("voos.txt", "r");
+
+    if(arquivo == NULL){
+        printf("\nErro ao abrir 'voos.txt'!");
+        return;
+    }
+
+    while(fscanf(arquivo, "%d - %29[^~]~ %29[^-]- %d/%d/%d %d:%d - av %d; p %d; cop %d; com %d - %9[^-]- R$ %f",
+        &novovoo.codigoVoo, novovoo.origemVoo, novovoo.destinoVoo, &novovoo.diaVoo, &novovoo.mesVoo, &novovoo.anoVoo, &novovoo.horaVoo, &novovoo.minutosVoo,
+        &novovoo.codigoAviao, &novovoo.codigoPiloto, &novovoo.codigoCopiloto, &novovoo.codigoComissario,
+        novovoo.statusVoo, &novovoo.tarifaVoo) != EOF)
+        {
+            if(codigo == novovoo.codigoVoo){ //Voo existe
+                return 1;
+            }
+        }
+
+    printf("\nCodigo de voo inexistente, por favor, digite um codigo valido!");
+    return 0;
+}
+
+//Função para verificar se o assento está livre
+int verificaAssentoLivre(int codigo, int numeroAssento) {
+    assento novoAssento;
+
+    FILE *arquivo;
+    arquivo = fopen("assentos.txt", "r");
+
+    if(arquivo == NULL){
+        printf("\nErro ao abrir 'assentos.txt'!");
+        return;
+    }
+
+    while(fscanf(arquivo, "%d - %7[^-]- %d", &novoAssento.codigoDoVoo, novoAssento.statusDoAssento, &novoAssento.numeroDoAssento))
+    {
+        if(codigo == novoAssento.codigoDoVoo && numeroAssento == novoAssento.numeroDoAssento){
+            if(strcmp(novoAssento.statusDoAssento, "livre ")){
+                return 1;
+            }
+            else{
+                printf("Assento já ocupado! ");
+                return 0;
+            }
+        }
+    }
+
+    fclose(arquivo);
+
+    return 0;
+
+}
 
 // Funcao para cadastrar um passageiro
 void cadastroDePassageiros() {
@@ -120,7 +175,7 @@ void cadastroDePassageiros() {
 	scanf("%d", &novoPassageiro.codigoPassageiro);
 
 	// Garantir unicidade do cC3digo
-	while (codigoJaExiste(novoPassageiro.codigoPassageiro) == 1) {
+	while (codigoPassageiroJaExiste(novoPassageiro.codigoPassageiro) == 1) {
 		printf("Codigo ja existe. Informe outro codigo: ");
 		scanf("%d", &novoPassageiro.codigoPassageiro);
 	}
@@ -246,7 +301,7 @@ void editarPassageiro() {
     }
 }
 
-//Função para excluir passageiro
+// Função para excluir passageiro
 void excluirPassageiro() {
     passageiro novoPassageiro;
     FILE *arquivo;
@@ -376,7 +431,7 @@ void cadastroDeVoo () //FUNCIONAL
 
  }
 
- void listarVoos() //FUNCIONAL
+void listarVoos() //FUNCIONAL
  {
         voo novovoo;
         int x;
@@ -405,7 +460,7 @@ void cadastroDeVoo () //FUNCIONAL
 
  }
 
- void editarVoo() //FUNCIONAL
+void editarVoo() //FUNCIONAL
  {
      voo novovoo;
 
@@ -505,7 +560,7 @@ void cadastroDeVoo () //FUNCIONAL
 
  }
 
-void excluirVoo()
+void excluirVoo() //FUNCIONAL
 {
     voo novovoo;
 
@@ -558,12 +613,135 @@ void excluirVoo()
     }
 }
 
- int cadastroDeAssentos ()
- {
+void cadastroDeAssento () //FUNCIONAL
+{
+    assento novoAssento;
 
- }
+    FILE *arquivo;
+    arquivo = fopen("assentos.txt", "a");
 
- int reservaDeAssento ( )
+    if(arquivo == NULL){
+        printf("\nErro ao abrir arquivo 'assentos.txt'!");
+        return;
+    }
+
+    do{
+        printf("\nInsira o codigo do voo: ");
+        scanf("%d", &novoAssento.codigoDoVoo);
+    } while(codigoVooExiste(novoAssento.codigoDoVoo) == 0);
+
+    printf("\nInforme o numero do assento: ");
+    scanf("%d", &novoAssento.numeroDoAssento);
+
+    strcpy(novoAssento.statusDoAssento, "livre");
+
+    fprintf(arquivo, "%d - %s - %d\n", novoAssento.codigoDoVoo, novoAssento.statusDoAssento, novoAssento.numeroDoAssento);
+
+    fclose(arquivo);
+
+    printf("\nAssento cadastrado e disponivel!\n");
+
+}
+
+void listarAssentos() //FUNCIONAL
+{
+    assento novoAssento;
+    int codigo, x=0;
+
+    FILE *arquivo;
+    arquivo = fopen("assentos.txt", "r");
+
+    if(arquivo == NULL){
+        printf("\nErro ao abrir arquivo 'assentos.txt'!");
+        return;
+    }
+
+    do
+    {
+        printf("\nDigite o codigo do voo: ");
+        scanf("%d", &codigo);
+    }while(codigoVooExiste(codigo)==0);
+
+    while(fscanf(arquivo, "%d - %7[^-]- %d", &novoAssento.codigoDoVoo, novoAssento.statusDoAssento, &novoAssento.numeroDoAssento) != EOF)
+    {
+        if(codigo == novoAssento.codigoDoVoo){
+            x++;
+            printf("\n%d - %s\n", novoAssento.numeroDoAssento, novoAssento.statusDoAssento);
+        }
+    }
+
+    if(x==0){
+        printf("\nNenhum assento cadastrado nesse voo.\n");
+    }
+}
+
+void excluirAssento() //FUNCIONAL
+{
+    assento novoAssento;
+    int x=0, codigo, numeroAssento;
+
+    FILE *arquivo;
+    FILE *temp;
+    arquivo = fopen("assentos.txt", "r");
+    temp = fopen("temp.txt", "w");
+
+    if(arquivo == NULL || temp == NULL){
+        printf("\nErro ao abrir arquivo!");
+        return;
+    }
+
+    do
+    {
+        printf("\nDigite o codigo do voo: ");
+        scanf("%d", &codigo);
+    }while(codigoVooExiste(codigo)==0);
+
+    while(fscanf(arquivo, "%d - %7[^-]- %d", &novoAssento.codigoDoVoo, novoAssento.statusDoAssento, &novoAssento.numeroDoAssento) != EOF)
+    {
+        if(codigo == novoAssento.codigoDoVoo){
+            x++;
+        }
+    }
+
+    rewind(arquivo);
+
+    if(x==0){
+        printf("\nNenhum assento cadastrado nesse voo.\n");
+    }
+    else{
+        printf("\nDigite o numero do assento a ser excluido: ");
+        scanf("%d", &numeroAssento);
+
+        x = 0;
+        printf("\n%d E %d\n", numeroAssento, novoAssento.numeroDoAssento);
+
+        while(fscanf(arquivo, "%d - %7[^-]- %d", &novoAssento.codigoDoVoo, novoAssento.statusDoAssento, &novoAssento.numeroDoAssento) != EOF)
+        {
+            printf("\nTESTE\n");
+            if(numeroAssento == novoAssento.numeroDoAssento){
+                x++;
+            }
+            else{
+                fprintf(temp, "%d - %s- %d\n", novoAssento.codigoDoVoo, novoAssento.statusDoAssento, novoAssento.numeroDoAssento);
+            }
+        }
+    }
+
+    fclose(arquivo);
+    fclose(temp);
+
+    if(x==0){
+        printf("\nAssento nao cadastrado.\n");
+        remove("temp.txt");
+    }
+    else{
+        printf("\nAssento excluido!\n");
+        remove("assentos.txt");
+        rename("temp.txt", "assentos.txt");
+    }
+}
+
+ int reservaDeAssento ()
  {
 
  }
@@ -644,18 +822,18 @@ int main ( void )
             }
             break;
     case 4:
-            /*printf("\n\nMenu de opcoes : \n\n1 - Cadastrar assento \n2 - Editar assento \n3 - Listar assentos \n4 - Excluir assento");
+            printf("\n\nMenu de opcoes : \n\n1 - Cadastrar assento \n2 - Editar assento \n3 - Listar assentos \n4 - Excluir assento");
             scanf("%d", &x);
             switch( x )
             {
             case 1: cadastroDeAssento(); break;
-            case 2: editarAssento(); break;
+            //case 2: editarAssento(); break;
             case 3: listarAssentos(); break;
             case 4: excluirAssento(); break;
-            default: printf("\nOpcao invalida!"); break;
+            /*default: printf("\nOpcao invalida!"); break;*/
             }
             break;
-    case 5:
+    case 5:/*
             printf("\n\nMenu de opcoes : \n\n1 - Cadastrar reserva \n2 - Editar reserva \n3 - Listar reservas \n4 - Excluir reserva");
             scanf("%d", &x);
             switch( x )
