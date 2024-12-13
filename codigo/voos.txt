@@ -1,0 +1,3 @@
+1 - Belo Horizonte ~ Salvador - 16/1/2025 13:30 - av 115; p 3; cop 1012; com 10015 - OK - R$ 82.50
+3 - Manaus ~ Pernambuco - 17/1/2025 19:30 - av 330; p 2; cop 1003; com 10010 - OK - R$ 56.50
+4 - Belem ~ Rio de Janeiro - 20/2/2025 15:15 - av 120; p 3; cop 1020; com 10010 - Pendente - R$ 95.12
