@@ -411,6 +411,92 @@ void excluirPassageiro() {
     return 0;
 }
 
+// Função para buscar passageiro
+void buscarPassageiro() {
+
+    int esc;
+
+    do
+    {
+        printf("\nComo voce deseja buscar o passageiro? \n1 - ID \n2 - Nome ");
+        scanf("%d", &esc);
+
+        if(esc == 1){
+            buscaPassageiroID();
+        }
+        else if(esc == 2){
+            buscaPassageiroNome();
+        }
+        else{
+
+        }
+    }while(esc != 1 && esc != 2);
+
+    return;
+
+}
+
+// Função para buscar passageiro por ID
+void buscaPassageiroID(){
+    passageiro novoPassageiro;
+
+    int codigo, x=0;
+
+    FILE *arquivo;
+    arquivo = fopen("passageiros.txt", "r");
+
+    printf("\nDigite o codigo do passageiro: ");
+    scanf("%d", &codigo);
+
+    while (fscanf(arquivo, "%d;%29[^;];%49[^;];%14[^;];%3[^;];%d", &novoPassageiro.codigoPassageiro,
+            novoPassageiro.nomePassageiro, novoPassageiro.enderecoPassageiro, novoPassageiro.telefone, novoPassageiro.fidelidade,
+            &novoPassageiro.pontosFidelidade) != EOF)
+    {
+        if(codigo == novoPassageiro.codigoPassageiro){
+        x++;
+        printf("\n%d %s\n", novoPassageiro.codigoPassageiro, novoPassageiro.nomePassageiro);
+        return 1;
+        }
+    }
+
+    if(x==0){
+        printf("\nPassageiro não encontrado!");
+        return 0;
+    }
+
+}
+
+// Função para buscar passageiro por Nome
+void buscaPassageiroNome(){
+    passageiro novoPassageiro;
+
+    char nome[30];
+    int x=0;
+
+    FILE *arquivo;
+    arquivo = fopen("passageiros.txt", "r");
+
+    getchar();
+    printf("\nDigite o nome do passageiro: ");
+    fgets(nome, sizeof(nome), stdin);
+    nome[strcspn(nome, "\n")] = '\0';
+
+    while (fscanf(arquivo, "%d;%29[^;];%49[^;];%14[^;];%3[^;];%d", &novoPassageiro.codigoPassageiro,
+            novoPassageiro.nomePassageiro, novoPassageiro.enderecoPassageiro, novoPassageiro.telefone, novoPassageiro.fidelidade,
+            &novoPassageiro.pontosFidelidade) != EOF)
+    {
+        if(strcmp(nome, novoPassageiro.nomePassageiro) == 0){
+        x++;
+        printf("\n%d %s\n", novoPassageiro.codigoPassageiro, novoPassageiro.nomePassageiro);
+        return 1;
+        }
+    }
+
+    if(x==0){
+        printf("\nPassageiro não encontrado!");
+        return 0;
+    }
+}
 
 int cadastroIntegranteTripulacao ()
 {
@@ -844,25 +930,109 @@ void reservarAssento()
 
 }
 
- int baixaReservaAssento ()
- {
+int baixaReservaAssento ()
+{
 
- }
+}
 
- int buscarPassageiroOuMembroDaTripulacao ()
- {
+int buscarPassageiroOuMembroDaTripulacao ()
+{
 
- }
+}
 
- int listarVoosPassageiro ()
- {
+void listarVoosPassageiro()
+{
+    assento novoAssento;
+    voo novovoo;
+    passageiro novoPassageiro;
+    char nome[30];
+    int esc, codigo;
 
- }
+    FILE *arquivo;
+    FILE *voos;
+    FILE *passageiros;
+    arquivo = fopen("assentos.txt", "r");
+    voos = fopen("voos.txt", "r");
+    passageiros = fopen("passageiros.txt", "r");
 
- int programaDeFidelidade ()
- {
+    if(arquivo == NULL){
+        printf("\nErro ao abrir arquivo.");
+        return;
+    }
 
- }
+    do
+    {
+        printf("\nComo deseja pesquisar os voos? \n1 - ID \n2 - Nome");
+        scanf("%d", &esc);
+    }while(esc != 1 && esc != 2);
+
+    if(esc == 2){
+        getchar();
+        printf("\nDigite o nome do passageiro: ");
+        fgets(nome, sizeof(nome), stdin);
+        nome[strcspn(nome, "\n")] = '\0';
+
+        while(fscanf(arquivo, "%d - %9[^-]- %d %29[^.].", &novoAssento.codigoDoVoo, novoAssento.statusDoAssento, &novoAssento.numeroDoAssento, novoAssento.nomePassageiro) != EOF)
+        {
+            while(fscanf(voos, "%d - %29[^~]~ %29[^-]- %d/%d/%d %d:%d - av %d; p %d; cop %d; com %d - %9[^-]- R$ %f",
+            &novovoo.codigoVoo, novovoo.origemVoo, novovoo.destinoVoo, &novovoo.diaVoo, &novovoo.mesVoo, &novovoo.anoVoo, &novovoo.horaVoo, &novovoo.minutosVoo,
+            &novovoo.codigoAviao, &novovoo.codigoPiloto, &novovoo.codigoCopiloto, &novovoo.codigoComissario,
+            novovoo.statusVoo, &novovoo.tarifaVoo) != EOF)
+            {
+                if(strcmp(nome, novoAssento.nomePassageiro) == 0){
+                    if(novoAssento.codigoDoVoo == novovoo.codigoVoo){
+                        printf("\nVoo: %d \n%s- %s\n Aviao: %d", novoAssento.codigoDoVoo, novovoo.origemVoo, novovoo.destinoVoo, novovoo.codigoAviao);
+                    }
+                }
+            }
+
+            rewind(voos);
+
+
+        }
+        printf("\n------------------\n");
+    }
+    else{
+        printf("\nDigite o codigo do passageiro: ");
+        scanf("%d", &codigo);
+
+        while(fscanf(arquivo, "%d - %9[^-]- %d %29[^.].", &novoAssento.codigoDoVoo, novoAssento.statusDoAssento, &novoAssento.numeroDoAssento, novoAssento.nomePassageiro) != EOF)
+        {
+            while(fscanf(voos, "%d - %29[^~]~ %29[^-]- %d/%d/%d %d:%d - av %d; p %d; cop %d; com %d - %9[^-]- R$ %f",
+            &novovoo.codigoVoo, novovoo.origemVoo, novovoo.destinoVoo, &novovoo.diaVoo, &novovoo.mesVoo, &novovoo.anoVoo, &novovoo.horaVoo, &novovoo.minutosVoo,
+            &novovoo.codigoAviao, &novovoo.codigoPiloto, &novovoo.codigoCopiloto, &novovoo.codigoComissario,
+            novovoo.statusVoo, &novovoo.tarifaVoo) != EOF)
+            {
+                while(fscanf(passageiros, "%d;%29[^;];%49[^;];%14[^;];%3[^;];%d", &novoPassageiro.codigoPassageiro,
+                     novoPassageiro.nomePassageiro, novoPassageiro.enderecoPassageiro, novoPassageiro.telefone, novoPassageiro.fidelidade,
+                     &novoPassageiro.pontosFidelidade) != EOF)
+                {
+                    if(codigo == novoPassageiro.codigoPassageiro){
+                        if(strcmp(novoPassageiro.nomePassageiro, novoAssento.nomePassageiro) == 0){
+                            if(novoAssento.codigoDoVoo == novovoo.codigoVoo){
+                                printf("\nVoo: %d \n%s- %s\n Aviao: %d", novoAssento.codigoDoVoo, novovoo.origemVoo, novovoo.destinoVoo, novovoo.codigoAviao);
+                            }
+                        }
+                    }
+                }
+                rewind(passageiros);
+            }
+
+            rewind(voos);
+        }
+        printf("\n------------------\n");
+    }
+
+    fclose(arquivo);
+    fclose(voos);
+    fclose(passageiros);
+
+}
+
+int programaDeFidelidade ()
+{
+
+}
 
 //Funcao Principal
 int main ( void )
@@ -884,7 +1054,7 @@ int main ( void )
   {
     case 0: ; break;
     case 1:
-            printf("\n\nMenu de opcoes : \n\n1 - Cadastrar Passageiro \n2 - Editar passageiro \n3 - Listar passageiros \n4 - Excluir passageiro");
+            printf("\n\nMenu de opcoes : \n\n1 - Cadastrar Passageiro \n2 - Editar passageiro \n3 - Listar passageiros \n4 - Excluir passageiro \n5 - Buscar passageiro \n6 - Listar voos do passageiro ");
             scanf("%d", &x);
             switch( x )
             {
@@ -892,6 +1062,8 @@ int main ( void )
             case 2: editarPassageiro(); break;
             case 3: listarPassageiros(); break;
             case 4: excluirPassageiro(); break;
+            case 5: buscarPassageiro(); break;
+            case 6: listarVoosPassageiro(); break;
             default: printf("\nOpcao invalida!"); break;
             }
             break;
