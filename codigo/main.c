@@ -39,14 +39,12 @@ typedef struct passageiro {
 
 } passageiro;
 
-typedef struct triupulacao{
+typedef struct tripulacao{
 
 	int codigoIntegranteTripulacao;
 	char nomeIntegranteTripulacao[30];
 	int telefoneIntegranteTripulacao;
-	int cargoPiloto;
-	int cargoCopiloto;
-	int cargoComissario;
+	char cargo[15];
 
 } tripulacao;
 
@@ -82,6 +80,12 @@ typedef struct reserva {
 	int codigoDoPassageiro;
 
 } reserva;
+
+Tripulacao *tripulantes = NULL;
+int totalTripulantes = 0;
+
+const char *ARQUIVO = "tripulantes.txt";
+
 
 //***FUNÇÕES E PROCEDIMENTOS***
 
@@ -498,10 +502,7 @@ void buscaPassageiroNome(){
     }
 }
 
-int cadastroIntegranteTripulacao ()
-{
 
-}
 
 void cadastroDeVoo () //FUNCIONAL
  {
@@ -935,10 +936,152 @@ int baixaReservaAssento ()
 
 }
 
-int buscarPassageiroOuMembroDaTripulacao ()
-{
+void salvarArquivo() {
+    FILE *file = fopen(ARQUIVO, "w");
+    if (!file) {
+        perror("Erro ao abrir o arquivo para salvar");
+        return;
+    }
 
+    for (int i = 0; i < totalTripulantes; i++) {
+        fprintf(file, "%d;%s;%s;%s\n",
+                tripulantes[i].codigoIntegranteTripulacao,
+                tripulantes[i].nomeIntegranteTripulacao,
+                tripulantes[i].telefoneIntegranteTripulacao,
+                tripulantes[i].cargo);
+    }
+
+    fclose(file);
+    printf("Dados salvos no arquivo.\n");
 }
+
+void carregarArquivo() {
+    FILE *file = fopen(ARQUIVO, "r");
+    if (!file) {
+        printf("Nenhum dado encontrado para carregar.\n");
+        return;
+    }
+
+    totalTripulantes = 0;
+    free(tripulantes);
+    tripulantes = NULL;
+
+    Tripulacao temp;
+    while (fscanf(file, "%d;%29[^;];%14[^;];%14[^\n]\n",
+                  &temp.codigoIntegranteTripulacao,
+                  temp.nomeIntegranteTripulacao,
+                  temp.telefoneIntegranteTripulacao,
+                  temp.cargo) == 4) {
+        tripulantes = realloc(tripulantes, (totalTripulantes + 1) * sizeof(Tripulacao));
+        tripulantes[totalTripulantes] = temp;
+        totalTripulantes++;
+    }
+
+    fclose(file);
+    printf("Dados carregados do arquivo.\n");
+}
+
+int obterProximoId() {
+    int proximoId = 1;
+    for (int i = 0; i < totalTripulantes; i++) {
+        if (tripulantes[i].codigoIntegranteTripulacao >= proximoId) {
+            proximoId = tripulantes[i].codigoIntegranteTripulacao + 1;
+        }
+    }
+    return proximoId;
+}
+
+void cadastroDeMembroTripulacao() {
+    Tripulacao novoMembro;
+    novoMembro.codigoIntegranteTripulacao = obterProximoId();
+
+    printf("Nome do integrante: ");
+    fgets(novoMembro.nomeIntegranteTripulacao, sizeof(novoMembro.nomeIntegranteTripulacao), stdin);
+    novoMembro.nomeIntegranteTripulacao[strcspn(novoMembro.nomeIntegranteTripulacao, "\n")] = '\0';
+
+    printf("Telefone do integrante: ");
+    fgets(novoMembro.telefoneIntegranteTripulacao, sizeof(novoMembro.telefoneIntegranteTripulacao), stdin);
+    novoMembro.telefoneIntegranteTripulacao[strcspn(novoMembro.telefoneIntegranteTripulacao, "\n")] = '\0';
+
+    printf("Cargo (piloto, copiloto, comissario): ");
+    fgets(novoMembro.cargo, sizeof(novoMembro.cargo), stdin);
+    novoMembro.cargo[strcspn(novoMembro.cargo, "\n")] = '\0';
+
+    tripulantes = realloc(tripulantes, (totalTripulantes + 1) * sizeof(Tripulacao));
+    tripulantes[totalTripulantes] = novoMembro;
+    totalTripulantes++;
+
+    printf("Membro cadastrado com sucesso! Codigo: %d\n", novoMembro.codigoIntegranteTripulacao);
+
+    salvarArquivo();
+}
+
+void listarMembroTripulacao() {
+    if (totalTripulantes == 0) {
+        printf("Nenhum membro cadastrado.\n");
+        return;
+    }
+
+    printf("Lista de membros da tripulacao:\n");
+    for (int i = 0; i < totalTripulantes; i++) {
+        printf("Codigo: %d\n", tripulantes[i].codigoIntegranteTripulacao);
+        printf("Nome: %s\n", tripulantes[i].nomeIntegranteTripulacao);
+        printf("Telefone: %s\n", tripulantes[i].telefoneIntegranteTripulacao);
+        printf("Cargo: %s\n\n", tripulantes[i].cargo);
+    }
+}
+
+void editarMembroTripulacao() {
+    int codigo;
+    printf("Digite o codigo do membro que deseja editar: ");
+    scanf("%d", &codigo);
+    getchar();
+
+    for (int i = 0; i < totalTripulantes; i++) {
+        if (tripulantes[i].codigoIntegranteTripulacao == codigo) {
+            printf("Novo nome: ");
+            fgets(tripulantes[i].nomeIntegranteTripulacao, sizeof(tripulantes[i].nomeIntegranteTripulacao), stdin);
+            tripulantes[i].nomeIntegranteTripulacao[strcspn(tripulantes[i].nomeIntegranteTripulacao, "\n")] = '\0';
+
+            printf("Novo telefone: ");
+            fgets(tripulantes[i].telefoneIntegranteTripulacao, sizeof(tripulantes[i].telefoneIntegranteTripulacao), stdin);
+            tripulantes[i].telefoneIntegranteTripulacao[strcspn(tripulantes[i].telefoneIntegranteTripulacao, "\n")] = '\0';
+
+            printf("Novo cargo: ");
+            fgets(tripulantes[i].cargo, sizeof(tripulantes[i].cargo), stdin);
+            tripulantes[i].cargo[strcspn(tripulantes[i].cargo, "\n")] = '\0';
+
+            printf("Membro atualizado com sucesso!\n");
+            salvarArquivo();
+            return;
+        }
+    }
+
+    printf("Codigo nao encontrado!\n");
+}
+
+void excluirMembroTripulacao() {
+    int codigo;
+    printf("Digite o codigo do membro que deseja excluir: ");
+    scanf("%d", &codigo);
+    getchar();
+
+    for (int i = 0; i < totalTripulantes; i++) {
+        if (tripulantes[i].codigoIntegranteTripulacao == codigo) {
+            for (int j = i; j < totalTripulantes - 1; j++) {
+                tripulantes[j] = tripulantes[j + 1];
+            }
+            totalTripulantes--;
+            tripulantes = realloc(tripulantes, totalTripulantes * sizeof(Tripulacao));
+            printf("Membro excluido com sucesso!\n");
+            salvarArquivo();
+            return;
+        }
+    }
+
+    printf("Codigo nao encontrado!\n");
+}
+
 
 void listarVoosPassageiro()
 {
@@ -1068,7 +1211,7 @@ int main ( void )
             }
             break;
     case 2:
-            /*printf("\n\nMenu de opcoes : \n\n1 - Cadastrar membro da tripulacao \n2 - Editar membro da tripulacao \n3 - Listar membros da tripulacao \n4 - Excluir membro da tripulacao");
+            printf("\n\nMenu de opcoes : \n\n1 - Cadastrar membro da tripulacao \n2 - Editar membro da tripulacao \n3 - Listar membros da tripulacao \n4 - Excluir membro da tripulacao");
             scanf("%d", &x);
             switch( x )
             {
