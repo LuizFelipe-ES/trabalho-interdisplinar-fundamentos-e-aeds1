@@ -29,7 +29,7 @@ typedef struct passageiro{
 
 }passageiro;
 
-typedef struct triupulacao{
+typedef struct tripulacao{
 
  int codigoIntegranteTripulacao;
  char nomeIntegranteTripulacao[30];
