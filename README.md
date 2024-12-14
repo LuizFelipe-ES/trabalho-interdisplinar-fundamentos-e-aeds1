@@ -5,6 +5,6 @@ Este trabalho foi realizado por: Arthur Henrique de Lima Santos, Karen Joilly Ar
 
 
 A documentação completa é o PDF "TI_AEDS I E FUNDAMENTOS"
-Optamos por colocar o vídeo no youtube, aqui está o link para a visualização: 
+Optamos por colocar o vídeo no youtube, aqui está o link para a visualização: https://youtu.be/bF4rfq2uEI8
 
 Dezembro,2024
