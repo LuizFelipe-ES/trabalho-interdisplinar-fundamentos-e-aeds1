@@ -1302,6 +1302,54 @@ void listarVoosPassageiro()
 
 }
 
+// Funcao que busca pontos de fidelidade de um passageiro pelo codigo
+void buscarPontosFidelidade(int codigoBuscado) {
+    // Declaracao de variaveis
+    FILE *arquivo; // Ponteiro para o arquivo
+    passageiro p;  // Estrutura que armazena dados do passageiro
+    char linha[300]; // Variavel para armazenar cada linha lida do arquivo
+    int encontrado = 0; // Variavel que controla se o passageiro foi encontrado
+
+    // Abre o arquivo "passageiros.txt" no modo de leitura
+    arquivo = fopen("passageiros.txt", "r");
+
+    // Verifica se houve erro ao abrir o arquivo
+    if (arquivo == NULL) {
+        printf("Erro ao abrir o arquivo.\n");
+        return; // Encerra a funcao em caso de erro ao abrir o arquivo
+    }
+
+    // Lê o arquivo linha por linha
+    while (fgets(linha, sizeof(linha), arquivo) != NULL) {
+        // Lê os dados da linha e armazena na estrutura passageiro 'p'
+        sscanf(linha, "%d;%[^;];%[^;];%[^;];%[^;];%d",
+               &p.codigoPassageiro, // Lê o código do passageiro
+               p.nomePassageiro,    // Lê o nome do passageiro
+               p.enderecoPassageiro, // Lê o endereço do passageiro
+               p.telefone,           // Lê o telefone do passageiro
+               p.fidelidade,         // Lê o status de fidelidade
+               &p.pontosFidelidade); // Lê os pontos de fidelidade
+
+        // Verifica se o código do passageiro é igual ao código buscado
+        if (p.codigoPassageiro == codigoBuscado) {
+            // Se encontrado, exibe as informações do passageiro
+            printf("Passageiro encontrado!\n");
+            printf("Nome: %s\n", p.nomePassageiro);
+            printf("Pontos de fidelidade: %d\n", p.pontosFidelidade);
+            encontrado = 1; // Marca que o passageiro foi encontrado
+            break; // Encerra o laço de repetição
+        }
+    }
+
+    // Fecha o arquivo após a leitura
+    fclose(arquivo);
+
+    // Verifica se o passageiro foi encontrado
+    if (!encontrado) {
+        // Exibe mensagem caso o passageiro não tenha sido encontrado
+        printf("Nenhum passageiro encontrado com o codigo %d.\n", codigoBuscado);
+    }
+}
 
 
 //Funcao Principal
