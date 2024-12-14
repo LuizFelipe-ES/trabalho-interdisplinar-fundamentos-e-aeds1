@@ -93,6 +93,12 @@ const char *ARQUIVO = "tripulantes.txt";  // Nome do arquivo que armazena os dad
 //***FUNCOES E PROCEDIMENTOS***
 
 //Funcao para verificar se o codigo de passageiro ja existe
+/**
+ * Verifica se um código de passageiro já existe no sistema.
+ * @param codigo Código do passageiro a ser verificado.
+ * @return 1 se o código já existir, 0 caso contrário.
+ */
+
 int codigoPassageiroJaExiste(int codigo) {
     FILE *arquivo = fopen("passageiros.txt", "r");  // Abre o arquivo "passageiros.txt" em modo leitura
     int codigoExistente;  // Variavel para armazenar o codigo do passageiro lido do arquivo
@@ -118,7 +124,14 @@ int codigoPassageiroJaExiste(int codigo) {
 }
 
 
+
 //Funcao para verificar se o passageiro existe
+/**
+ * Verifica se um passageiro com o nome fornecido já existe no sistema.
+ * @param nomePassageiro Nome do passageiro a ser verificado.
+ * @return 1 se o passageiro existir, 0 caso contrário.
+ */
+
 int passageiroExiste(char nomePassageiro[]){
     passageiro novoPassageiro;  // Variavel para armazenar os dados de um passageiro lido do arquivo
     int x=0;  // Variavel para contar se o passageiro foi encontrado
@@ -152,6 +165,11 @@ int passageiroExiste(char nomePassageiro[]){
 }
 
 //Funcao para verificar se o codigo de voo existe
+/**
+ * Verifica se o código de um voo existe no sistema.
+ * @param codigo Código do voo a ser verificado.
+ * @return 1 se o voo existir, 0 caso contrário.
+ */
 int codigoVooExiste(int codigo){
     voo novovoo;  // Variavel para armazenar os dados de um voo lido do arquivo
 
@@ -180,6 +198,12 @@ int codigoVooExiste(int codigo){
 }
 
 //Funcao para verificar se o assento esta livre
+/**
+ * Verifica se um assento específico está livre para reserva.
+ * @param codigo Código do voo.
+ * @param numeroAssento Número do assento a ser verificado.
+ * @return 1 se o assento estiver livre, 0 caso contrário.
+ */
 int verificaAssentoLivre(int codigo, int numeroAssento) {
     assento novoAssento;  // Variavel para armazenar os dados do assento lido do arquivo
     int x=0, y=0;  // Variaveis para contar o total de assentos e para verificar se o assento foi encontrado
@@ -222,6 +246,13 @@ int verificaAssentoLivre(int codigo, int numeroAssento) {
 
 
 // Funcao para cadastrar um passageiro
+/**
+ * Realiza o cadastro de um novo passageiro no sistema.
+ * Garante que não existam dois passageiros com o mesmo código.
+ * @param Nenhum.
+ * @return Nenhum.
+ */
+
 void cadastroDePassageiros() {
     passageiro novoPassageiro;  // Variavel para armazenar os dados do novo passageiro
     FILE *arquivo;  // Ponteiro para o arquivo onde os dados do passageiro serão gravados
@@ -282,6 +313,13 @@ void cadastroDePassageiros() {
 }
 
 // Função para listar passageiros
+/**
+ * Lista todos os passageiros cadastrados no sistema.
+ * Exibe os dados de cada passageiro, como código, nome, endereço, etc.
+ * @param Nenhum.
+ * @return Nenhum.
+ */
+
 void listarPassageiros() {
     passageiro novoPassageiro;  // Declara uma variável para armazenar os dados de cada passageiro
     FILE *arquivo = fopen("passageiros.txt", "r");  // Abre o arquivo "passageiros.txt" no modo de leitura
@@ -309,6 +347,12 @@ void listarPassageiros() {
 
 
 // Funcao para editar passageiro
+/**
+ * Permite a edição de dados de um passageiro já cadastrado.
+ * @param Nenhum.
+ * @return Nenhum.
+ */
+
 void editarPassageiro() {
     FILE *arquivo = fopen("passageiros.txt", "r");  // Abre o arquivo "passageiros.txt" para leitura
     FILE *temp = fopen("temp.txt", "w");  // Cria um arquivo temporario "temp.txt" para escrita
@@ -361,6 +405,12 @@ void editarPassageiro() {
 }
 
 // Funcao para excluir passageiro
+/**
+ * Exclui um passageiro do sistema, removendo os dados do arquivo.
+ * @param Nenhum.
+ * @return Nenhum.
+ */
+
 void excluirPassageiro() {
     passageiro novoPassageiro;  // Declara a estrutura para armazenar dados do passageiro
     FILE *arquivo;  // Declara o ponteiro para o arquivo de passageiros
@@ -427,6 +477,13 @@ void excluirPassageiro() {
 }
 
 // Função para buscar passageiro
+/**
+ * Busca um passageiro no sistema e exibe os seus dados.
+ * Pode buscar por nome ou código.
+ * @param Nenhum.
+ * @return Nenhum.
+ */
+
 void buscarPassageiro() {
 
     int esc;  // Declara a variável para armazenar a escolha do usuário
@@ -450,6 +507,13 @@ void buscarPassageiro() {
 }
 
 // Função para buscar passageiro por ID
+/**
+ * Busca um passageiro pelo seu código ID.
+ * Exibe as informações do passageiro encontrado.
+ * @param Nenhum.
+ * @return Nenhum.
+ */
+
 void buscaPassageiroID() {
     passageiro novoPassageiro;  // Declara a variável para armazenar os dados do passageiro
 
@@ -481,6 +545,13 @@ void buscaPassageiroID() {
 
 
 // Função para buscar passageiro por Nome
+/**
+ * Busca um passageiro pelo nome.
+ * Exibe as informações do passageiro encontrado.
+ * @param Nenhum.
+ * @return Nenhum.
+ */
+
 void buscaPassageiroNome(){
     passageiro novoPassageiro;  // Declara a variável para armazenar os dados do passageiro
 
@@ -515,6 +586,13 @@ void buscaPassageiroNome(){
 }
 
 // Função para cadastrar um voo
+/**
+ * Realiza o cadastro de um novo voo no sistema.
+ * Recebe informações como origem, destino, data, e outros detalhes.
+ * @param Nenhum.
+ * @return Nenhum.
+ */
+
 void cadastroDeVoo() {
     voo novovoo;  // Declara a estrutura para armazenar os dados do voo
     FILE *arquivo;  // Declara o ponteiro para o arquivo de voos
@@ -618,6 +696,12 @@ void cadastroDeVoo() {
 }
 
 // Função para verificar se o tripulante existe
+/**
+ * Verifica se um tripulante está cadastrado no sistema.
+ * @param codigo Código do tripulante a ser verificado.
+ * @return 1 se o tripulante existir, 0 caso contrário.
+ */
+
 int tripulanteExiste(int codigo) {
     for (int i = 0; i < totalTripulantes; i++) {
         if (tripulantes[i].codigoIntegranteTripulacao == codigo) {
@@ -628,6 +712,13 @@ int tripulanteExiste(int codigo) {
 }
 
 // Função para listar todos os voos cadastrados
+/**
+ * Lista todos os voos cadastrados no sistema.
+ * Exibe os dados de cada voo, como código, origem, destino, etc.
+ * @param Nenhum.
+ * @return Nenhum.
+ */
+
 void listarVoos() {
     voo novovoo;  // Declara a estrutura para armazenar os dados do voo
     int x;  // Declara variável auxiliar para controle de loop
@@ -653,6 +744,13 @@ void listarVoos() {
                novovoo.statusVoo, novovoo.tarifaVoo);
     }
 }
+
+// Função para editar dados de voo cadastrado
+/**
+ * Permite a edição de dados de um voo já cadastrado.
+ * @param Nenhum.
+ * @return Nenhum.
+ */
 
 void editarVoo() //FUNCIONAL
 {
@@ -722,6 +820,13 @@ void editarVoo() //FUNCIONAL
     }
 }
 
+// Função para excluir voo cadastrado
+/**
+ * Exclui um voo do sistema, removendo os dados do arquivo.
+ * @param Nenhum.
+ * @return Nenhum.
+ */
+
 void excluirVoo() //FUNCIONAL
 {
     voo novovoo;
@@ -776,6 +881,13 @@ void excluirVoo() //FUNCIONAL
     }
 }
 
+/**
+ * Realiza o cadastro de um assento no sistema.
+ * Recebe o código do voo e o número do assento.
+ * @param Nenhum.
+ * @return Nenhum.
+ */
+
 void cadastroDeAssento () //FUNCIONAL
 {
     assento novoAssento;
@@ -813,6 +925,13 @@ void cadastroDeAssento () //FUNCIONAL
 
 
 // Função para listar os assentos de um voo
+/**
+ * Lista todos os assentos disponíveis e ocupados em cada voo.
+ * Exibe a situação (livre ou reservado) de cada assento.
+ * @param Nenhum.
+ * @return Nenhum.
+ */
+
 void listarAssentos() //FUNCIONAL
 {
     assento novoAssento;
@@ -854,6 +973,12 @@ void listarAssentos() //FUNCIONAL
 }
 
 // Função para excluir um assento
+/**
+ * Exclui um assento reservado, liberando-o para novas reservas.
+ * @param Nenhum.
+ * @return Nenhum.
+ */
+
 void excluirAssento() //FUNCIONAL
 {
     assento novoAssento;
@@ -928,6 +1053,13 @@ void excluirAssento() //FUNCIONAL
 }
 
 // Função para reservar um assento
+/**
+ * Realiza a reserva de um assento para um passageiro.
+ * Recebe o código do voo e o número do assento.
+ * @param Nenhum.
+ * @return Nenhum.
+ */
+
 void reservarAssento()
 {
     assento novoAssento;
@@ -984,6 +1116,13 @@ void reservarAssento()
 }
 
 // Função para liberar um assento
+/**
+ * Cancela a reserva de um assento, liberando-o novamente.
+ * Recebe o código do voo e o número do assento.
+ * @param Nenhum.
+ * @return Nenhum.
+ */
+
 void baixaReservaAssento()
 {
     assento novoAssento;
@@ -1034,6 +1173,13 @@ void baixaReservaAssento()
 
 
 // Função para salvar os dados no arquivo
+/**
+ * Salva todos os dados dos passageiros, voos, assentos, etc., nos arquivos.
+ * Atualiza o arquivo com as últimas informações.
+ * @param Nenhum.
+ * @return Nenhum.
+ */
+
 void salvarArquivo() {
     FILE *file = fopen(ARQUIVO, "w"); // Abre o arquivo para escrita
     if (!file) {
@@ -1055,6 +1201,13 @@ void salvarArquivo() {
 }
 
 // Função para carregar os dados do arquivo
+/**
+ * Carrega os dados dos arquivos e os disponibiliza no sistema.
+ * Carrega as informações de passageiros, voos, assentos, etc.
+ * @param Nenhum.
+ * @return Nenhum.
+ */
+
 void carregarArquivo() {
     FILE *file = fopen(ARQUIVO, "r"); // Abre o arquivo para leitura
     if (!file) {
@@ -1083,6 +1236,12 @@ void carregarArquivo() {
 }
 
 // Função para obter o próximo ID disponível para um membro da tripulação
+/**
+ * Obtém o próximo ID disponível para cadastro de tripulantes.
+ * @param Nenhum.
+ * @return O próximo ID disponível.
+ */
+
 int obterProximoId() {
     int proximoId = 1;
     for (int i = 0; i < totalTripulantes; i++) {
@@ -1094,6 +1253,13 @@ int obterProximoId() {
 }
 
 // Função para cadastrar um novo membro da tripulação
+/**
+ * Realiza o cadastro de um membro da tripulação no sistema.
+ * Recebe as informações do tripulante e as salva no sistema.
+ * @param Nenhum.
+ * @return Nenhum.
+ */
+
 void cadastroDeMembroTripulacao() {
     Tripulacao novoMembro;
     novoMembro.codigoIntegranteTripulacao = obterProximoId(); // Atribui o próximo ID disponível
@@ -1122,6 +1288,13 @@ void cadastroDeMembroTripulacao() {
 }
 
 // Função para listar todos os membros da tripulação
+/**
+ * Lista todos os membros da tripulação cadastrados no sistema.
+ * Exibe as informações de cada membro, como código, nome, cargo, etc.
+ * @param Nenhum.
+ * @return Nenhum.
+ */
+
 void listarMembroTripulacao() {
     if (totalTripulantes == 0) {
         printf("Nenhum membro cadastrado.\n"); // Caso não haja membros cadastrados
@@ -1139,6 +1312,12 @@ void listarMembroTripulacao() {
 }
 
 // Função para editar os dados de um membro da tripulação
+/**
+ * Permite a edição de dados de um membro da tripulação já cadastrado.
+ * @param Nenhum.
+ * @return Nenhum.
+ */
+
 void editarMembroTripulacao() {
     int codigo;
     printf("Digite o codigo do membro que deseja editar: ");
@@ -1170,6 +1349,13 @@ void editarMembroTripulacao() {
 }
 
 // Função para excluir um membro da tripulação
+/**
+ * Exclui um membro da tripulação do sistema.
+ * Remove o membro da tripulação e atualiza o registro no sistema.
+ * @param Nenhum.
+ * @return Nenhum.
+ */
+
 void excluirMembroTripulacao() {
     int codigo;
     printf("Digite o codigo do membro que deseja excluir: ");
@@ -1195,6 +1381,13 @@ void excluirMembroTripulacao() {
 }
 
 // Função para listar os voos de um passageiro
+/**
+ * Lista todos os voos associados a um passageiro.
+ * Exibe as informações do voo e o status de reserva do passageiro.
+ * @param Nenhum.
+ * @return Nenhum.
+ */
+
 void listarVoosPassageiro()
 {
     // Declaração das variáveis necessárias
@@ -1303,6 +1496,13 @@ void listarVoosPassageiro()
 }
 
 // Funcao que busca pontos de fidelidade de um passageiro pelo codigo
+/**
+ * Busca e exibe os pontos de fidelidade de um passageiro.
+ * Recebe o código do passageiro e retorna a quantidade de pontos acumulados.
+ * @param codigoBuscado Código do passageiro a ser pesquisado.
+ * @return Nenhum.
+ */
+
 void buscarPontosFidelidade(int codigoBuscado) {
     // Declaracao de variaveis
     FILE *arquivo; // Ponteiro para o arquivo
