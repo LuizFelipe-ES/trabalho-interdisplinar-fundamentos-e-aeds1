@@ -1,9 +1,8 @@
-# Trabalho interdisciplinar entre Fundamentos de Engenharia de Software e AEDs I #
+# Interdisciplinary work between Fundamentals of Software Engineering and AEDs I #
 
-Este trabalho foi realizado por: Arthur Henrique de Lima Santos, Karen Joilly Araujo Gregorio de Almeida, Luiz Felipe Alves da Silva e Mirna dos Reis Arcanjo.
+This work was carried out by: Arthur Henrique de Lima Santos, Karen Joilly Araújo Gregório de Almeida, Luiz Felipe Alves da Silva and Mirna dos Reis Arcanjo.
 
+The complete documentation is the PDF "TI_AEDS I AND FUNDAMENTALS"
+We chose to put the video on youtube, here is the link to the preview: https://youtu.be/bF4rfq2uEI8
 
-A documentação completa é o PDF "TI_AEDS I E FUNDAMENTOS"
-Optamos por colocar o vídeo no youtube, aqui está o link para a visualização: https://youtu.be/bF4rfq2uEI8
-
-Dezembro,2024
+December,2024
